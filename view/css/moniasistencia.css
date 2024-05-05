@@ -1,0 +1,25 @@
+.header-info {
+    margin-bottom: 20px;
+  }
+  .logo {
+    display: none;  /* La imagen está oculta por defecto */
+  }
+
+  @media print {
+    body {
+      visibility: hidden;
+    }
+    .print-container,
+    .print-container * {
+      visibility: visible;
+    }
+    .print-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .logo {
+        margin-bottom: 15px;
+        display:inline-block;
+    }
+  }

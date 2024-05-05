@@ -1,0 +1,23 @@
+.control-container {
+    max-width: 22rem;
+  }
+  .control-header {
+    background-color: #b2f5ea;
+  }
+  .control-button {
+    background-color: #e5e7eb;
+    border: none;
+  }
+  .control-button-on-off {
+    background-color: #f87171;
+  }
+  .control-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .control-big-text {
+    font-size: 2.5rem;
+  }
+  .control-small-text {
+    font-size: 0.875rem;
+  }
