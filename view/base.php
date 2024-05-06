@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- estilos -->
   <?php include("estilos.php"); ?>
-  <title>ITCA-FEPADA salón inteligente - Base</title>
+  <title>ITCA-FEPADE salón inteligente - Base</title>
 </head>
 
 <body>
@@ -28,13 +28,15 @@
     </div>
   </main>
 
+  <!-- css para inputs de temperatura y calidad aire -->
+  <link rel="stylesheet" href="css/temperatura.css" />
+  
+  <!-- scripts -->
+  <?php include("scripts.php"); ?>
+
   <!-- script personalizado, sustituir con el script principal de la pantalla -->
   <script type="text/javascript" src="resources/inputs_temperatura.js?v=24043001"></script>
 
-  <!-- css para inputs de temperatura y calidad aire -->
-  <link rel="stylesheet" href="css/temperatura.css" />
-  <!-- scripts -->
-  <?php include("scripts.php"); ?>
 </body>
 
 </html>

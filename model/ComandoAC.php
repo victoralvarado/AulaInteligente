@@ -75,7 +75,7 @@ class ComandoAC
 
     public function getLastCommand()
     {
-        $sqlAll = "SELECT comando FROM comandoac ORDER BY id DESC LIMIT 1;";
+        $sqlAll = "SELECT comando FROM comandoac WHERE idAC=".$this->idAC."  ORDER BY id DESC LIMIT 1;";
         $info = $this->db->query($sqlAll);
         if(mysqli_num_rows($info) > 0)
         {
@@ -111,7 +111,7 @@ class ComandoAC
 
     public function deleteComando()
     {
-        $sql="DELETE FROM comandoac;";
+        $sql="DELETE FROM comandoac WHERE idAC=".$this->idAC.";";
             $res=$this->db->query($sql);
             $data=array();
             if($res)

@@ -11,15 +11,9 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link px-3">
+            <a href="gestion_ac.php" class="nav-link px-3">
               <span class="me-2"><i class="bi bi-fan"></i></span>
-              <span>Control A/C</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link px-3">
-              <span class="me-2"><i class="bi bi-sliders"></i></span>
-              <span>Calidad del Aire</span>
+              <span>Gestión A/C</span>
             </a>
           </li>
           <li>

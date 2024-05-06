@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- estilos -->
   <?php include("estilos.php"); ?>
-  <title>ITCA-FEPADA salón inteligente - Enviar señales infrarrojas</title>
+  <title>ITCA-FEPADE salón inteligente - Enviar señales infrarrojas</title>
 </head>
 
 <body>

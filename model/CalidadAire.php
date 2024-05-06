@@ -205,6 +205,48 @@ class CalidadAire
             return $data;
     }
 
+    public function getLastCalidadAC()
+    {
+        $sqlAll = "SELECT * FROM calidadaire WHERE idAC=".$this->idAC."  ORDER BY id DESC LIMIT 1;";
+        $info = $this->db->query($sqlAll);
+        $arreglo = array();
+
+        if(mysqli_num_rows($info) > 0)
+        {
+            $data = $info->fetch_assoc();
+            $arreglo['temperatura']=$data['temperatura'];
+            $arreglo['humedad']=$data['humedad'];
+        }
+        else
+        {
+            $arreglo['temperatura']=null;
+            $arreglo['humedad']=null;
+        }
+
+        return $arreglo;
+    }
+
+    public function getAverageCalidadAC()
+    {
+        $sqlAll = "SELECT AVG(temperatura) AS temperatura, AVG(humedad) AS humedad FROM calidadaire WHERE idAC=".$this->idAC.";";
+        $info = $this->db->query($sqlAll);
+        $arreglo = array();
+
+        if(mysqli_num_rows($info) > 0)
+        {
+            $data = $info->fetch_assoc();
+            $arreglo['temperatura']=$data['temperatura'];
+            $arreglo['humedad']=$data['humedad'];
+        }
+        else
+        {
+            $arreglo['temperatura']=null;
+            $arreglo['humedad']=null;
+        }
+
+        return $arreglo;
+    }
+
 }
 
 ?>

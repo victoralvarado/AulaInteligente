@@ -51,6 +51,7 @@ function InsertComandoAC()
 function DeleteComandoAC()
 {
 		$objCom = new ComandoAC();
+		$objCom->setIdAC($_GET['idAC']);
 		$res=$objCom->deleteComando();
 		echo $res;
 }
