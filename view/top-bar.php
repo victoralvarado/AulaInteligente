@@ -5,7 +5,7 @@
         aria-controls="offcanvasExample">
         <span class="navbar-toggler-icon" data-bs-target="#sidebar"></span>
       </button>
-      <a class="navbar-brand" href="#"><img src="images/logo.png" height="42" style="background-color: #EBD299;" />
+      <a class="navbar-brand" href="index.php"><img src="images/logo.png" height="42" style="background-color: #EBD299;" />
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavBar"
         aria-controls="topNavBar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,4 +34,5 @@
       </div>
     </div>
   </nav>
+  <input type="hidden" id="AC" name="AC" value="1" />
   <!-- top navigation bar -->
