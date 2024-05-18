@@ -11,7 +11,6 @@
 </head>
 
 <body>
-
     <!-- top bar -->
     <?php include("top-bar.php"); ?>
 
@@ -81,7 +80,7 @@
     <?php include("scripts.php"); ?>
 
     <!-- script personalizado, sustituir con el script principal de la pantalla -->
-    <script type="text/javascript" src="resources/gestion_ac.js?v=24043001"></script>
+    <script type="text/javascript" src="resources/gestion_ac.js"></script>
 
 </body>
 

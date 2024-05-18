@@ -8,6 +8,32 @@
   <!-- estilos -->
   <?php include("estilos.php"); ?>
   <title>ITCA-FEPADA salón inteligente - Base</title>
+  <script>
+        function fetchAttendance() {
+            fetch('testgetasistencia.php')
+                .then(response => response.json())
+                .then(data => {
+                    let table = document.getElementById('attendance-table');
+                    table.innerHTML = '';
+                    data.forEach(record => {
+                        let row = table.insertRow();
+                        let cell1 = row.insertCell(0);
+                        let cell2 = row.insertCell(1);
+                        let cell3 = row.insertCell(2);
+                        let cell4 = row.insertCell(3);
+                        cell1.innerHTML = record.nombres;
+                        cell2.innerHTML = record.apellidos;
+                        cell3.innerHTML = record.carnet;
+                        cell4.innerHTML = record.estado;
+                        cell4.classList.add('text-center');
+                    });
+                });
+        }
+
+        setInterval(fetchAttendance, 5000); // Actualizar cada 5 segundos
+
+        window.onload = fetchAttendance; // Cargar al inicio
+    </script>
 </head>
 
 <body>
@@ -63,7 +89,7 @@
                 10:40AM (N/A)
               </p>
               <p class="mt-4">
-                Simbología: Punto(.)= Asistencia, (T)= Llegadas tardes, (I)=
+                Simbología: Punto(•)= Asistencia, (T)= Llegadas tardes, (I)=
                 Inasistencia, (*)= Segunda matrícula, (**) = tercera matrícula
               </p>
             </div>
@@ -74,22 +100,15 @@
                 class="table table-striped table-bordered"
               >
                 <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>CARNET</th>
-                    <th>NOMBRE</th>
-                    <!-- Agregar tantas columnas de fechas como sea necesario -->
+                <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Carnet</th>
+                <th>Estado</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <!-- Los datos de las filas irían aquí. Ejemplo de fila: -->
-                  <tr>
-                    <td>1</td>
-                    <td>[Carnet]</td>
-                    <td>[Nombre del estudiante]</td>
-                    <!-- Agregar datos de asistencia por fecha -->
-                  </tr>
-                  <!-- Repetir filas según cantidad de estudiantes -->
+                <tbody id="attendance-table">
+                <!-- Asistencia se mostrará aquí -->
                 </tbody>
               </table>
             </div>
