@@ -25,7 +25,7 @@ def get_face_encodings():
 face_encodings, face_names = get_face_encodings()
 
 # Referencia a la webcam: 0  principal, 1  secundaria ...
-video = cv2.VideoCapture(1)
+video = cv2.VideoCapture('rtsp://admin:Passw0rd777!@192.168.1.240/Streaming/Channels/1')
 
 # Variable para escalar el tamaño de la imagen
 scl = 2

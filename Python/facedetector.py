@@ -1,4 +1,3 @@
-# Deteccion de rostro sin abrir ventana de camara
 import face_recognition as fr  # Para reconocer rostros
 import numpy as np  # Para manejar listas y arrays
 import cv2  # Para capturar video de la webcam
@@ -21,7 +20,7 @@ def get_face_encodings():
 face_encodings, face_names = get_face_encodings()
 
 # Referencia a la webcam
-video = cv2.VideoCapture(1)
+video = cv2.VideoCapture('rtsp://admin:Passw0rd777!@169.254.67.37/Streaming/Channels/101')
 
 # Variable para escalar el tamaño de la imagen
 scl = 2
@@ -45,10 +44,23 @@ try:
             if True in result:
                 name = face_names[result.index(True)]
                 print("Rostro detectado:", name)  # Imprimir el nombre del rostro detectado
+                
+                # Dibujar un rectángulo alrededor del rostro detectado
+                top, right, bottom, left = [v * scl for v in face_location]
+                cv2.rectangle(image, (left, top), (right, bottom), (0, 0, 255), 2)
+                cv2.putText(image, name, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
+
+        # Mostrar la imagen con los rectángulos en una ventana
+        cv2.imshow('Video', image)
+
+        # Salir del bucle si se presiona la tecla 'q'
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
 except KeyboardInterrupt:
     print("Programa interrumpido por el usuario")
 
 finally:
     video.release()
+    cv2.destroyAllWindows()
     print("Recursos liberados y programa terminado correctamente.")

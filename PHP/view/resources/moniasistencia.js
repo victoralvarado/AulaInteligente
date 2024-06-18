@@ -29,8 +29,3 @@ function updateClock() {
   document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("currentDate").textContent = updateDate();
   });
-  $(document).ready(function () {
-    $("#attendanceTable").DataTable({
-      // Configuración de DataTables si es necesario
-    });
-  });

@@ -35,7 +35,7 @@ while True:
         face_encodings, face_carnets = get_face_encodings()
 
         # Referencia a la webcam
-        video = cv2.VideoCapture('http://vv:vv2@192.168.16.201:8080/video') #IP Camera
+        video = cv2.VideoCapture('rtsp://admin:Passw0rd777!@169.254.67.37/Streaming/Channels/1') #IP Camera
 
         # Variable para escalar el tamaño de la imagen
         scl = 2
@@ -56,7 +56,7 @@ while True:
 
         # Función para obtener el estado de asistencia (T = Tarde, I = Inasistencia, • = Asistencia)
         def obtener_estado_asistencia(aula_id, materia_id, tolerancia):
-            dia_semana = datetime.now().weekday()
+            dia_semana = datetime.now().weekday()#0 Lunes; 6 Domingo
             hora_actual = datetime.now().time()
             cursor.execute("""
                 SELECT hora_inicio FROM horarios 

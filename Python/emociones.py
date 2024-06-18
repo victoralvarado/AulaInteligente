@@ -16,7 +16,7 @@ faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 emotionModel = load_model("modelFEC.h5")
 
 # Se crea la captura de video
-cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cam = cv2.VideoCapture('rtsp://admin:Passw0rd777!@169.254.67.37/Streaming/Channels/101', cv2.CAP_DSHOW)
 
 # Función para predecir emociones en rostros detectados
 def predict_emotion(frame, faceNet, emotionModel):

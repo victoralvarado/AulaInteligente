@@ -4,7 +4,8 @@ import cv2
 import os
 import mysql.connector
 from datetime import datetime, timedelta
-
+import threading
+import time
 
 # Conexión a la base de datos MySQL
 db = mysql.connector.connect(
@@ -34,7 +35,7 @@ def get_face_encodings():
 face_encodings, face_carnets = get_face_encodings()
 
 # Referencia a la webcam
-video = cv2.VideoCapture(1)  # Asegúrate de que '0' es el índice correcto para tu webcam
+rtsp_url = 1#'rtsp://admin:Passw0rd777!@192.168.1.240:554/Streaming/Channels/1'
 
 # Variable para escalar el tamaño de la imagen
 scl = 2
@@ -64,12 +65,8 @@ def obtener_estado_asistencia(aula_id, materia_id, tolerancia):
     horario = cursor.fetchone()
     if horario:
         hora_inicio = str(horario[0])
-        print(hora_inicio)
         fecha_hora = datetime.strptime(hora_inicio, "%H:%M:%S")
-        print(fecha_hora)
         hora_tolerancia = fecha_hora + timedelta(minutes=tolerancia)
-        print("")
-        print(hora_tolerancia.time())
         if hora_actual > hora_tolerancia.time():
             return 'T'
         else:
@@ -93,37 +90,66 @@ def registrar_asistencia(carnet, aula_id, materia_id, tolerancia):
             db.commit()
             print(f"Asistencia registrada para carnet {carnet} con estado {estado}")
 
-# Captura continua de video de la webcam
-try:
+# Función para capturar video
+def capturar_video():
+    global video_frame, rtsp_url, video
+    while True:
+        if video is None or not video.isOpened():
+            video = cv2.VideoCapture(rtsp_url)
+            time.sleep(2)  # Esperar un poco antes de reintentar la conexión
+            continue
+
+        success, frame = video.read()
+        if not success:
+            print("Error al capturar el video, reintentando...")
+            video.release()
+            video = None
+            continue
+
+        video_frame = frame
+        cv2.waitKey(1)
+
+# Función para procesar imágenes y detectar rostros
+def procesar_imagen():
+    global video_frame
     while True:
         aula_id, materia_id, tolerancia = obtener_horario_actual()
         if aula_id is None or materia_id is None or tolerancia is None:
             print("No hay clases programadas en este momento.")
             break
 
-        success, image = video.read()
-        if not success:
-            break  # Si no se logra capturar la imagen, salir del bucle
+        if video_frame is not None:
+            resized_image = cv2.resize(video_frame, (int(video_frame.shape[1] / scl), int(video_frame.shape[0] / scl)))
+            rgb_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
+            face_locations = fr.face_locations(rgb_image)
+            unknown_encodings = fr.face_encodings(rgb_image, face_locations)
 
-        # Reducir el tamaño del frame actual
-        resized_image = cv2.resize(image, (int(image.shape[1] / scl), int(image.shape[0] / scl)))
-        rgb_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
-        face_locations = fr.face_locations(rgb_image)
-        unknown_encodings = fr.face_encodings(rgb_image, face_locations)
+            for face_encoding, face_location in zip(unknown_encodings, face_locations):
+                result = fr.compare_faces(face_encodings, face_encoding, 0.4)
+                if True in result:
+                    carnet = face_carnets[result.index(True)]
+                    registrar_asistencia(carnet, aula_id, materia_id, tolerancia)
+                    print("Rostro detectado con carnet:", carnet)
 
-        # Procesar cada cara detectada
-        for face_encoding, face_location in zip(unknown_encodings, face_locations):
-            result = fr.compare_faces(face_encodings, face_encoding, 0.4)
-            if True in result:
-                carnet = face_carnets[result.index(True)]
-                registrar_asistencia(carnet, aula_id, materia_id, tolerancia)
-                print("Rostro detectado con carnet:", carnet)  # Imprimir el carnet del rostro detectado
+# Variables globales
+video_frame = None
+video = None
 
-except KeyboardInterrupt:
-    print("Programa interrumpido por el usuario")
+# Crear hilos para capturar video y procesar imágenes
+video_thread = threading.Thread(target=capturar_video)
+procesar_thread = threading.Thread(target=procesar_imagen)
 
-finally:
+# Iniciar hilos
+video_thread.start()
+procesar_thread.start()
+
+# Esperar a que los hilos terminen
+video_thread.join()
+procesar_thread.join()
+
+# Liberar recursos
+if video is not None:
     video.release()
-    cursor.close()
-    db.close()
-    print("Recursos liberados y programa terminado correctamente.")
+cursor.close()
+db.close()
+print("Recursos liberados y programa terminado correctamente.")
